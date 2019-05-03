@@ -1,4 +1,4 @@
-const coords = [
+const Coords = [
     {
       type: "Feature",
       properties: {
@@ -6,7 +6,7 @@ const coords = [
       },
       geometry: {
         type: "Point",
-        coordinates: [-482.31868743896484, 47.623173768903946]
+        coordinates: [-122.31868743896484, 47.623173768903946]
       }
     },
     {
@@ -16,7 +16,7 @@ const coords = [
       },
       geometry: {
         type: "Point",
-        coordinates: [-482.3377418518066, 47.622826666563675]
+        coordinates: [-122.3377418518066, 47.622826666563675]
       }
     },
     {
@@ -26,7 +26,7 @@ const coords = [
       },
       geometry: {
         type: "Point",
-        coordinates: [-482.36675262451166, 47.632660340454386]
+        coordinates: [-122.36675262451166, 47.632660340454386]
       }
     },
     {
@@ -36,7 +36,7 @@ const coords = [
       },
       geometry: {
         type: "Point",
-        coordinates: [-482.3993253707885, 47.64697370526775]
+        coordinates: [-122.3993253707885, 47.64697370526775]
       }
     },
     {
@@ -46,7 +46,7 @@ const coords = [
       },
       geometry: {
         type: "Point",
-        coordinates: [-482.385892868042, 47.67636885973022]
+        coordinates: [-122.385892868042, 47.67636885973022]
       }
     },
     {
@@ -56,7 +56,7 @@ const coords = [
       },
       geometry: {
         type: "Point",
-        coordinates: [-482.3499298095703, 47.65047193135073]
+        coordinates: [-122.3499298095703, 47.65047193135073]
       }
     },
     {
@@ -66,7 +66,7 @@ const coords = [
       },
       geometry: {
         type: "Point",
-        coordinates: [-482.31328010559076, 47.66110972448931]
+        coordinates: [-122.31328010559076, 47.66110972448931]
       }
     },
     {
@@ -76,7 +76,7 @@ const coords = [
       },
       geometry: {
         type: "Point",
-        coordinates: [-482.28014945983887, 47.636014935321185]
+        coordinates: [-122.28014945983887, 47.636014935321185]
       }
     },
     {
@@ -86,7 +86,7 @@ const coords = [
       },
       geometry: {
         type: "Point",
-        coordinates: [-482.3214340209961, 47.608535619882346]
+        coordinates: [-122.3214340209961, 47.608535619882346]
       }
     },
     {
@@ -96,7 +96,7 @@ const coords = [
       },
       geometry: {
         type: "Point",
-        coordinates: [-482.30843067169184, 47.60309589588304]
+        coordinates: [-122.30843067169184, 47.60309589588304]
       }
     },
     {
@@ -106,7 +106,7 @@ const coords = [
       },
       geometry: {
         type: "Point",
-        coordinates: [-482.3307037353516, 47.603616745009965]
+        coordinates: [-122.3307037353516, 47.603616745009965]
       }
     },
     {
@@ -116,7 +116,7 @@ const coords = [
       },
       geometry: {
         type: "Point",
-        coordinates: [-482.3452949523926, 47.613135795983474]
+        coordinates: [-122.3452949523926, 47.613135795983474]
       }
     },
     {
@@ -126,7 +126,7 @@ const coords = [
       },
       geometry: {
         type: "Point",
-        coordinates: [-482.32641220092773, 47.596671663587045]
+        coordinates: [-122.32641220092773, 47.596671663587045]
       }
     },
     {
@@ -136,7 +136,7 @@ const coords = [
       },
       geometry: {
         type: "Point",
-        coordinates: [-482.28971958160395, 47.57829168890145]
+        coordinates: [-122.28971958160395, 47.57829168890145]
       }
     },
     {
@@ -146,7 +146,7 @@ const coords = [
       },
       geometry: {
         type: "Point",
-        coordinates: [-482.31061935424805, 47.577394233560945]
+        coordinates: [-122.31061935424805, 47.577394233560945]
       }
     },
     {
@@ -156,7 +156,7 @@ const coords = [
       },
       geometry: {
         type: "Point",
-        coordinates: [-482.3312187194824, 47.581157652951454]
+        coordinates: [-122.3312187194824, 47.581157652951454]
       }
     },
     {
@@ -166,9 +166,9 @@ const coords = [
       },
       geometry: {
         type: "Point",
-        coordinates: [-482.28551387786865, 47.62265311452928]
+        coordinates: [-122.28551387786865, 47.62265311452928]
       }
     }
   ];
 
-export default coords;
+export default Coords;
