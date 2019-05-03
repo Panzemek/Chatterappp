@@ -38,13 +38,13 @@ export default class HomeScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.button}>
           <Button title="Create New Room" onPress={this.addRoom} />
         </View>
         {this.state.rooms.map(room => {
           return(room)})}
-      </View>
+      </ScrollView>
     );
   }
 }
