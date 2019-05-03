@@ -1,24 +1,49 @@
-import React from "react";
-import { View } from "react-native";
-import { Card, Button, FormLabel, FormInput } from "react-native-elements";
-import { onSignIn } from "../auth";
+//import liraries
+import React, { Component } from 'react';
+import { View, Text, StyleSheet, Button, AsyncStorage, TextInput } from 'react-native';
 
-export default ({ navigation }) => (
-  <View style={{ paddingVertical: 20 }}>
-    <Card>
-      <FormLabel>Email</FormLabel>
-      <FormInput placeholder="Email address..." />
-      <FormLabel>Password</FormLabel>
-      <FormInput secureTextEntry placeholder="Password..." />
+// create a component
+class SignInScreen extends Component {
 
-      <Button
-        buttonStyle={{ marginTop: 20 }}
-        backgroundColor="#03A9F4"
-        title="SIGN IN"
-        onPress={() => {
-          onSignIn().then(() => navigation.navigate("SignedIn"));
-        }}
-      />
-    </Card>
-  </View>
-);
+  signIn = async() => {
+    await AsyncStorage.setItem('userToken', "Sammy")
+    this.props.navigation.navigate("App")
+  }
+  render() {
+    return (
+      <View style={styles.container}>
+        <TextInput
+          placeholder="Username or Email"
+          placeholderTextColor="#FFF"
+          style={styles.input}
+        />
+        <TextInput
+          placeholder="Password"
+          placeholderTextColor="#FFF"
+          style={styles.input}
+        />
+        
+
+        <Button title="Complete Sign In" onPress={this.signIn} />
+      </View>
+    );
+  }
+}
+
+// define your styles
+const styles = StyleSheet.create({
+  container: {
+    padding: 20
+  },
+
+  input: {
+    height: 40,
+    backgroundColor: "rgba(000,000,000,0.2)",
+    marginBottom: 20,
+    color: "#000",
+    paddingHorizontal: 10
+  }
+});
+
+//make this component available to the app
+export default SignInScreen;
