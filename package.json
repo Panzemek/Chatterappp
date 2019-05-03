@@ -1,19 +1,42 @@
 {
+<<<<<<< HEAD
   "name": "chatterapp",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+=======
+  "name": "Chatterapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+>>>>>>> 25d081f21dcb4eea71f92c70bf57541373596f9d
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hunterwiegand/Chatterapp.git"
   },
+<<<<<<< HEAD
+=======
+  "keywords": [],
+>>>>>>> 25d081f21dcb4eea71f92c70bf57541373596f9d
   "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/hunterwiegand/Chatterapp/issues"
   },
+<<<<<<< HEAD
   "homepage": "https://github.com/hunterwiegand/Chatterapp#readme"
+=======
+  "homepage": "https://github.com/hunterwiegand/Chatterapp#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "express": "^4.16.4",
+    "mongoose": "^5.5.4"
+  }
+>>>>>>> 25d081f21dcb4eea71f92c70bf57541373596f9d
 }
