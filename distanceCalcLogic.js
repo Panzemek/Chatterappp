@@ -1,4 +1,5 @@
-let coords = [
+//this array contains all the data about neighborhood 'points'
+const coords = [
   {
     type: "Feature",
     properties: {
@@ -171,19 +172,18 @@ let coords = [
   }
 ];
 
-var testCoords= [-482.3377418518066, 47.622826666563675]
+var testCoords= [-482.3377418518061, 47.622826666563625]
 
-//down the line this will need to take in the users coordinate location
-
-
+//this function takes in a set of user coordinates, and returns an array that contains objects.
+//  those objects contain 1) distance from the user to that 'neighborhood' and 2) the name of that neighborhood
+//  this array is sorted with the closest neighborhoods being first 
 function distancesArr(userCoords) {
     let distances = [];
     for (i = 0; i<coords.length; i++) {
         let newVal = {distance: distance(userCoords[0], userCoords[1], coords[i].geometry.coordinates[0], coords[i].geometry.coordinates[1], "K"), nHood: coords[i].properties.neighborhood}
         distances.push(newVal)
     }
-
-    //TODO: sort this list in descending order
+    distances.sort(compareValues("distance"));
     return distances;   
 }
 
@@ -210,7 +210,7 @@ function distance(lat1, lon1, lat2, lon2, unit) {
 }
 
 //following code is taken from https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
-// function for dynamic sorting
+// function for dynamic sorting when used in conjunction with the ".sort" method
 function compareValues(key, order='asc') {
     return function(a, b) {
       if(!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
@@ -235,7 +235,5 @@ function compareValues(key, order='asc') {
     };
   }
 
-let unsorted = distancesArr(testCoords);
+console.log(distancesArr(testCoords));
 
-unsorted.sort(compareValues("distance"));
-console.log(unsorted)
