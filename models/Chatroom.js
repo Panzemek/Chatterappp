@@ -10,6 +10,8 @@ const ChatroomSchema = new Schema({
     title: String,
     // Description of the Chatroom
     description: String,
+    // Location of the Chatroom
+    location: String,
     // Messages in the Chatroom
     messages: [
         {
