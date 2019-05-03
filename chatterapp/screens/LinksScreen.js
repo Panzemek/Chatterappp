@@ -11,6 +11,9 @@ let initialReg = {
   longitudeDelta: 0.0421
 };
 
+//github issue on markers not returning key value
+//https://github.com/react-native-community/react-native-maps/issues/218
+
 export default class LinksScreen extends React.Component {
   static navigationOptions = {
     title: "Maps"
@@ -29,10 +32,8 @@ export default class LinksScreen extends React.Component {
   render() {
     return (
       <MapView style={{ flex: 1 }} initialRegion={initialReg}>
-        {/* <MapView.Marker coordinate={Coords[0].geometry.coordinates}/> */}
         {Coords.map(coord => (
           <MapView.Marker
-
             //TODO: This needs to handle page redirection - currently it just returns the name of the neighborhood you clicked on
             onCalloutPress={e => console.log(this.handlePress(e.nativeEvent))}
             key={coord.properties.neighborhood}
