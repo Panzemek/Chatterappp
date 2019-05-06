@@ -16,16 +16,6 @@ module.exports = function () {
     clients.delete(client.id)
   }
 
-  function getAvailableUsers() {
-    const usersTaken = new Set(
-      Array.from(clients.values())
-        .filter(c => c.user)
-        .map(c => c.user.name)
-    )
-    return userTemplates
-      .filter(u => !usersTaken.has(u.name))
-  }
-
   function isUserAvailable(userName) {
     return getAvailableUsers().some(u => u.name === userName)
   }
@@ -42,7 +32,6 @@ module.exports = function () {
     addClient,
     registerClient,
     removeClient,
-    getAvailableUsers,
     isUserAvailable,
     getUserByName,
     getUserByClientId

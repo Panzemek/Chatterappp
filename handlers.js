@@ -11,7 +11,7 @@ function makeHandleEvent(client, clientManager, chatroomManager) {
   function ensureUserSelected(clientId) {
     return ensureExists(
       () => clientManager.getUserByClientId(clientId),
-      'select user first'
+      'Log in first'
     )
   }
 
@@ -50,9 +50,6 @@ module.exports = function (client, clientManager, chatroomManager) {
   const handleEvent = makeHandleEvent(client, clientManager, chatroomManager)
 
   function handleRegister(userName, callback) {
-    if (!clientManager.isUserAvailable(userName))
-      return callback('user is not available')
-
     const user = clientManager.getUserByName(userName)
     clientManager.registerClient(client, user)
 
@@ -98,10 +95,6 @@ module.exports = function (client, clientManager, chatroomManager) {
     return callback(null, chatroomManager.serializeChatrooms())
   }
 
-  function handleGetAvailableUsers(_, callback) {
-    return callback(null, clientManager.getAvailableUsers())
-  }
-
   function handleDisconnect() {
     // remove user profile
     clientManager.removeClient(client)
@@ -115,7 +108,6 @@ module.exports = function (client, clientManager, chatroomManager) {
     handleLeave,
     handleMessage,
     handleGetChatrooms,
-    handleGetAvailableUsers,
     handleDisconnect
   }
 }
