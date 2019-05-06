@@ -1,19 +1,28 @@
 import React from 'react';
 import { View, TextInput, Button, StyleSheet,Text } from "react-native"
 
+
 export default class MessageScreen extends React.Component {
   state = {
     messages: [],
     message: "",
+    room: ""
   }
 
-  static navigationOptions = {
-    title: 'Messages',
-  };
+  static navigationOptions = ({navigation}) => {
+    return {title: navigation.getParam("pageToLoad", "Seattle")}
+  }
+
+
+  componentDidMount() {
+    let newRoom = this.props.navigation.getParam("pageToLoad", "Seattle")
+    this.setState({room:newRoom})
+
+  }
+
 
   handleSend = () => {
     let arr = this.state.messages.slice();
-    let value = "   fgh      "
 
     if (this.state.message) {
       arr.push(this.state.message);
@@ -22,11 +31,6 @@ export default class MessageScreen extends React.Component {
         message: ""
       })
     }
-
-    if(value){
-      console.log("true")
-    }
-    else{console.log("false")}
   }
 
   render() {

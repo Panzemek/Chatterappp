@@ -9,11 +9,14 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+
 import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
 
-import NewRoom from "../components/NewRoom/NewRoom"
+import NewRoom from "../components/NewRoom/NewRoom";
+
+import RoomButton from "../components/RoomButton/RoomButton";
 
 export default class HomeScreen extends React.Component {
   displayData = []
@@ -24,26 +27,31 @@ export default class HomeScreen extends React.Component {
   }
 
   static navigationOptions = {
-    header: null,
     title: "Home",
   };
 
+  handleSubmit = () => {
+    this.props.navigation.navigate("Room");
+}
+
   addRoom = () => {
-    this.displayData.push(<Button key={this.state.keys} onPress={console.log("lol")} title="New Room" style={styles.input}/>)
+    this.displayData.push(<NewRoom handleSubmit={handleSubmit} key={this.state.keys} />)
     this.setState({
-      rooms: this.displayData,
+      rooms: displayData,
       keys: this.state.keys + 1,
     })
   }
+
 
   render() {
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.button}>
-          <Button title="Create New Room" onPress={this.addRoom} />
+          <Button title="Create New Room" onPress={this.handleSubmit} />
         </View>
         {this.state.rooms.map(room => {
-          return(room)})}
+          return (room)
+        })}
       </ScrollView>
     );
   }

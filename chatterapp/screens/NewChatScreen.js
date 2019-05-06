@@ -21,29 +21,29 @@ export default class NewChat extends React.Component {
   }
 
   render() {
-    return (
-      <View style={styles.container}>
-        <MapView style={styles.map} initialRegion={initialReg}>
-          <MapView.Marker 
-            coordinate={this.state.latlng}
-            title={"Press here to create your new room!"}
-          />
-          <MapView.Circle
-            center={this.state.latlng}
-            radius={this.state.radius}
-          />
-        </MapView>
-        <View style={styles.inputView}>
-          <TextInput 
-            style={styles.input}
-            onChangeText={name => this.setState({name: name})}
-          />
-          <TextInput 
-            style={styles.input}
-            onChangeText={radius => this.setState({radius: radius})}
-          />
-        </View>
+    return(
+    <View style={styles.container}>
+      <MapView style={styles.map} initialRegion={initialReg}>
+        <MapView.Marker 
+          coordinate={this.state.latlng}
+          title={"Press here to create your new room!"}
+        />
+        <MapView.Circle
+          center={this.state.latlng}
+          radius={this.state.radius}
+        />
+      </MapView>
+      <View style={styles.inputView}>
+        <TextInput 
+          style={styles.input}
+          onChangeText={name => this.setState({name: name})}
+        />
+        <TextInput 
+          style={styles.input}
+          onChangeText={radius => this.setState({radius: radius})}
+        />
       </View>
+    </View>
     )
   }
 };

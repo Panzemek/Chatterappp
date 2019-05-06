@@ -5,11 +5,27 @@ import AuthLoadingScreen from "../screens/AuthLoadingScreen"
 import SignInScreen from '../screens/SignIn';
 import SignUpScreen from '../screens/Signup';
 import Welcome from "../screens/Welcome";
+import HomeScreen from '../screens/HomeScreen';
+import NewRoom from "../components/NewRoom/NewRoom";
+import NewChatScreen from "../screens/NewChatScreen";
+import MessageScreen from "../screens/MessageScreen"
+import LinksScreen from "../screens/LinksScreen"
+
 
 const AuthStackNavigator = createStackNavigator({
   Welcome: Welcome,
   SignIn: SignInScreen,
   SignUp: SignUpScreen
+})
+
+const NewRoomNavigator = createStackNavigator({
+  Home: HomeScreen,
+  Room: NewChatScreen,
+})
+
+const RoomNav = createStackNavigator({
+  MsgRoom: MessageScreen,
+  Origin: LinksScreen,
 })
 
 export default createAppContainer(createSwitchNavigator({
@@ -18,6 +34,6 @@ export default createAppContainer(createSwitchNavigator({
   AuthLoading: AuthLoadingScreen,
   Auth: AuthStackNavigator,
   App: MainTabNavigator,
-  // Auth: AuthStack,
-  // Root: RootNavigator
+  Rooms: NewRoomNavigator,
+  RoomNav: RoomNav,
 }));
