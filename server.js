@@ -7,12 +7,12 @@ var http = require("http").Server(app);
 const io = require("socket.io")(http);
 const PORT = process.env.PORT || 5000;
 
-const ClientManager = require("./ClientManager");
 const ChatroomManager = require("./ChatroomManager");
-const makeHandlers = require("./handlers");
-
-const clientManager = ClientManager();
 const chatroomManager = ChatroomManager();
+
+const Chatroom = require('./Chatroom')
+
+
 
 //Parse request body as a JSON
 app.use(express.urlencoded({ extended: true }));
@@ -21,34 +21,31 @@ app.use(express.json());
 // Connect to the mongoDb
 mongoose.connect("mongodb://localhost/chatterappdb", { useNewUrlParser: true });
 
+const members = new Map();
+let chatHistory = [];
+
 io.on("connection", function(client) {
-  const {
-    handleRegister,
-    handleJoin,
-    handleLeave,
-    handleMessage,
-    handleGetChatrooms,
-    handleDisconnect
-  } = makeHandlers(client, clientManager, chatroomManager);
-
   console.log("client connected...", client.id);
-  clientManager.addClient(client);
 
-  client.on("register", handleRegister);
+  client.on("join", room => {
+    client.join(room);
+    // Add user to room user list
+  });
 
-  client.on("join", handleJoin);
+  client.on("leave", room => {
+    /// Remove user from rooms user list
+  });
 
-  client.on("leave", handleLeave);
-
-  client.on("message", handleMessage);
-
-  client.on("chatrooms", handleGetChatrooms);
-
-  client.on("availableUsers", handleGetAvailableUsers);
+  client.on("message", (msg, room) => {
+    /// msg object needs to contain everything we post in the chat
+    /// Needs to add to database
+    io.to(room).emit("client messge", msg)
+  });
 
   client.on("disconnect", function() {
+    /// need functionality to remove from current users list in any current rooms
     console.log("client disconnect...", client.id);
-    handleDisconnect();
+ 
   });
 
   client.on("error", function(err) {
