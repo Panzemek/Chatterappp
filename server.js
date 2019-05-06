@@ -39,11 +39,11 @@ io.on("connection", function(client) {
   client.on("message", (msg, room) => {
     /// msg object needs to contain everything we post in the chat
     /// Needs to add to database
-    io.to(room).emit("client messge", msg)
+    io.to(room).emit("client message", msg)
   });
 
   client.on("disconnect", function() {
-    /// need functionality to remove from current users list in any current rooms
+    /// need functionality to remove from displayed current users list in any current rooms
     console.log("client disconnect...", client.id);
  
   });

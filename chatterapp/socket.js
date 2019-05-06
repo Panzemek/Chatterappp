@@ -1,6 +1,7 @@
 const io = require('socket.io-client')
 
 export default function () {
+  /// !!! need to set host correctly
   const socket = io.connect('http://localhost:3000')
 
   function registerHandler(onMessageReceived) {
@@ -33,16 +34,11 @@ export default function () {
     socket.emit('message', { chatroomName, message: msg }, cb)
   }
 
-  function getChatrooms(cb) {
-    socket.emit('chatrooms', null, cb)
-  }
-
   return {
     register,
     join,
     leave,
     message,
-    getChatrooms,
     registerHandler,
     unregisterHandler
   }
