@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TextInput } from "react-native";
 import { ExpoLinksView } from "@expo/samples";
 import { MapView } from "expo";
 import Coords from "../assets/nHoodCords";
@@ -15,6 +15,7 @@ let initialReg = {
 //https://github.com/react-native-community/react-native-maps/issues/218
 
 export default class LinksScreen extends React.Component {
+
   static navigationOptions = {
     title: "Maps"
   };
@@ -28,6 +29,8 @@ export default class LinksScreen extends React.Component {
       }
     }
   }
+  
+  
 
   render() {
     return (
