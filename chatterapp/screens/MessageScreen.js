@@ -2,15 +2,24 @@ import React from 'react';
 import { View, TextInput, Button, StyleSheet, Text, KeyboardAvoidingView } from "react-native";
 import { GiftedChat } from "react-native-gifted-chat"
 
-export default class MessageScreen extends React.Component {
-//   state = {
-//     messages: [],
-//     message: "",
-//   }
 
-  static navigationOptions = {
-    title: 'Messages',
-  };
+export default class MessageScreen extends React.Component {
+  state = {
+    messages: [],
+    message: "",
+    room: ""
+  }
+
+  static navigationOptions = ({navigation}) => {
+    return {title: navigation.getParam("pageToLoad", "Seattle")}
+  }
+
+
+  componentDidMount() {
+    let newRoom = this.props.navigation.getParam("pageToLoad", "Seattle")
+    this.setState({room:newRoom})
+  }
+
 
 //   handleSend = () => {
 //     let arr = this.state.messages.slice();
@@ -42,10 +51,6 @@ export default class MessageScreen extends React.Component {
 //     )
 //   }
 // }
-
-state = {
-  messages: [],
-}
 
 componentWillMount() {
   this.setState({

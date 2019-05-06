@@ -8,6 +8,8 @@ import Welcome from "../screens/Welcome";
 import HomeScreen from '../screens/HomeScreen';
 import NewRoom from "../components/NewRoom/NewRoom";
 import NewChatScreen from "../screens/NewChatScreen";
+import MessageScreen from "../screens/MessageScreen"
+import LinksScreen from "../screens/LinksScreen"
 
 
 const AuthStackNavigator = createStackNavigator({
@@ -21,6 +23,11 @@ const NewRoomNavigator = createStackNavigator({
   Room: NewChatScreen,
 })
 
+const RoomNav = createStackNavigator({
+  MsgRoom: MessageScreen,
+  Origin: LinksScreen,
+})
+
 export default createAppContainer(createSwitchNavigator({
   // You could add another route here for authentication.
   // Read more at https://reactnavigation.org/docs/en/auth-flow.html
@@ -28,4 +35,5 @@ export default createAppContainer(createSwitchNavigator({
   Auth: AuthStackNavigator,
   App: MainTabNavigator,
   Rooms: NewRoomNavigator,
+  RoomNav: RoomNav,
 }));
