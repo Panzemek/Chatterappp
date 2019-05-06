@@ -13,7 +13,6 @@ export default class MessageScreen extends React.Component {
 
   handleSend = () => {
     let arr = this.state.messages.slice();
-    let value = "   fgh      "
 
     if (this.state.message) {
       arr.push(this.state.message);
@@ -22,11 +21,6 @@ export default class MessageScreen extends React.Component {
         message: ""
       })
     }
-
-    if(value){
-      console.log("true")
-    }
-    else{console.log("false")}
   }
 
   render() {

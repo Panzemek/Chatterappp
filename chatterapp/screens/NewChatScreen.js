@@ -20,6 +20,7 @@ export default class NewChat extends React.Component {
   }
 
   render() {
+    return(
       <MapView style={{ flex: 1 }} initialRegion={initialReg}>
         <MapView.Marker 
           coordinate={this.state.latlng}
@@ -30,5 +31,6 @@ export default class NewChat extends React.Component {
         />
 
       </MapView>
+    )
   }
 };
