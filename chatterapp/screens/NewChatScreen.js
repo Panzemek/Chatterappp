@@ -16,7 +16,7 @@ export default class NewChat extends React.Component {
       latitude: 47.6062,
       longitude: -122.3321
     },
-    radius: 1,
+    radius: 1000,
     name:""
   }
 

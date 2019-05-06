@@ -25,7 +25,8 @@ export default class LinksScreen extends React.Component {
     for (i=0; i<Coords.length; i++) {
       nHoodCoord = Coords[i].geometry.coordinates
       if (coordinates[0]===nHoodCoord[0] && coordinates[1]===nHoodCoord[1]) {
-        return Coords[i].properties.neighborhood;
+        console.log('nhood is ' + Coords[i].properties.neighborhood)
+        this.props.navigation.navigate("MsgRoom", {pageToLoad : Coords[i].properties.neighborhood})
       }
     }
   }
@@ -38,7 +39,7 @@ export default class LinksScreen extends React.Component {
         {Coords.map(coord => (
           <MapView.Marker
             //TODO: This needs to handle page redirection - currently it just returns the name of the neighborhood you clicked on
-            onCalloutPress={e => console.log(this.handlePress(e.nativeEvent))}
+            onCalloutPress={e => this.handlePress(e.nativeEvent)}
             key={coord.properties.neighborhood}
             title={coord.properties.neighborhood + "- Press To Join Room!"}
             coordinate={{
