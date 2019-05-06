@@ -21,8 +21,9 @@ export default class NewChat extends React.Component {
   }
 
   render() {
-    <View>
-      <MapView style={{ flex: 1 }} initialRegion={initialReg}>
+    return(
+    <View style={styles.container}>
+      <MapView style={styles.map} initialRegion={initialReg}>
         <MapView.Marker 
           coordinate={this.state.latlng}
           title={"Press here to create your new room!"}
@@ -43,6 +44,7 @@ export default class NewChat extends React.Component {
         />
       </View>
     </View>
+    )
   }
 };
 
