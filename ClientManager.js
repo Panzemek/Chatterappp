@@ -1,7 +1,8 @@
-const userTemplates = require('../config/users')
+// const userTemplates = require('../config/users')
 
 module.exports = function () {
   // mapping of all connected clients
+  // !!! Needs to be refactored for room divisions
   const clients = new Map()
 
   function addClient(client) {
@@ -16,13 +17,10 @@ module.exports = function () {
     clients.delete(client.id)
   }
 
-  function isUserAvailable(userName) {
-    return getAvailableUsers().some(u => u.name === userName)
-  }
-
-  function getUserByName(userName) {
-    return userTemplates.find(u => u.name === userName)
-  }
+  // !!! Needs to set user information by auth
+  // function getUserByName(userName) {
+  //   return userTemplates.find(u => u.name === userName)
+  // }
 
   function getUserByClientId(clientId) {
     return (clients.get(clientId) || {}).user
@@ -32,8 +30,7 @@ module.exports = function () {
     addClient,
     registerClient,
     removeClient,
-    isUserAvailable,
-    getUserByName,
+    // getUserByName,
     getUserByClientId
   }
 }
