@@ -1,45 +1,88 @@
 import React from 'react';
-import { View, TextInput, Button, StyleSheet,Text } from "react-native"
+import { View, TextInput, Button, StyleSheet, Text, KeyboardAvoidingView } from "react-native";
+import { GiftedChat } from "react-native-gifted-chat"
 
 export default class MessageScreen extends React.Component {
-  state = {
-    messages: [],
-    message: "",
-  }
+//   state = {
+//     messages: [],
+//     message: "",
+//   }
 
   static navigationOptions = {
     title: 'Messages',
   };
 
-  handleSend = () => {
-    let arr = this.state.messages.slice();
+//   handleSend = () => {
+//     let arr = this.state.messages.slice();
 
-    if (this.state.message) {
-      arr.push(this.state.message);
-      this.setState({
-        messages: arr,
-        message: ""
-      })
-    }
-  }
+//     if (this.state.message) {
+//       arr.push(this.state.message);
+//       this.setState({
+//         messages: arr,
+//         message: ""
+//       })
+//     }
+//   }
 
-  render() {
-    return (
-      <View>
-        <TextInput
-          value={this.state.message}
-          onChangeText={message => this.setState({message: message})}
-          placeholder="Message"
-          placeholderTextColor="#FFF"
-          style={styles.input}
-        />
+//   render() {
+//     return (
+//       <View>
+//         <TextInput
+//           value={this.state.message}
+//           onChangeText={message => this.setState({message: message})}
+//           placeholder="Message"
+//           placeholderTextColor="#FFF"
+//           style={styles.input}
+//         />
 
-        <Button title="Send" onPress={this.handleSend} />
+//         <Button title="Send" onPress={this.handleSend} />
 
-        <Text>{this.state.messages.join(" ")}</Text>
-      </View>
-    )
-  }
+//         <GiftedChat>{this.state.messages.join(" ")}</GiftedChat>
+//       </View>
+//     )
+//   }
+// }
+
+state = {
+  messages: [],
+}
+
+componentWillMount() {
+  this.setState({
+    messages: [
+      {
+        _id: 1,
+        text: 'Hello developer',
+        createdAt: new Date(),
+        user: {
+          _id: 2,
+          name: 'React Native',
+          avatar: 'https://placeimg.com/140/140/any',
+        },
+      },
+    ],
+  })
+}
+
+onSend(messages = []) {
+  this.setState(previousState => ({
+    messages: GiftedChat.append(previousState.messages, messages),
+  }))
+}
+
+render() {
+  return (
+    <KeyboardAvoidingView behavior={'padding'} style={{flex:1}} keyboardVerticalOffset={100} enabled>
+    <GiftedChat
+      messages={this.state.messages}
+      onSend={messages => this.onSend(messages)}
+      user={{
+        _id: 1,
+      }}
+    />
+    </KeyboardAvoidingView>
+  )
+}
 }
 
 const styles = StyleSheet.create({
