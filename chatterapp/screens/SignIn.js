@@ -16,11 +16,15 @@ class SignInScreen extends Component {
           placeholder="Username or Email"
           placeholderTextColor="#FFF"
           style={styles.input}
+          keyboardType={"email-address"}
+          autoCapitalize={"none"}
         />
         <TextInput
           placeholder="Password"
           placeholderTextColor="#FFF"
           style={styles.input}
+          secureTextEntry={true}
+          autoCapitalize={"none"}
         />
         
 
