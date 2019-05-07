@@ -8,7 +8,7 @@ import Welcome from "../screens/Welcome";
 import HomeScreen from '../screens/HomeScreen';
 import NewRoom from "../components/NewRoom/NewRoom";
 import NewChatScreen from "../screens/NewChatScreen";
-import MessageScreen from "../screens/MessageScreen"
+import ChatroomScreen from "../screens/ChatroomScreen"
 import LinksScreen from "../screens/LinksScreen"
 
 
@@ -24,7 +24,7 @@ const NewRoomNavigator = createStackNavigator({
 })
 
 const RoomNav = createStackNavigator({
-  MsgRoom: MessageScreen,
+  MsgRoom: ChatroomScreen,
   Origin: LinksScreen,
 })
 

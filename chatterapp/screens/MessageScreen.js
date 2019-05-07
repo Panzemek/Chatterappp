@@ -5,10 +5,11 @@ import {
   Button,
   StyleSheet,
   Text,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  AsyncStorage
 } from "react-native";
 import { GiftedChat } from "react-native-gifted-chat";
-import SocketIOClient from "socket.it-client";
+import SocketIOClient from "socket.io-client";
 
 const USER_ID = "@userId";
 
@@ -26,7 +27,7 @@ export default class MessageScreen extends React.Component {
     this.onSend = this.onSend.bind(this);
     this._storeMessages = this._storeMessages.bind(this);
 
-    // this.socket = SocketIOClient("http://localhost:3000");
+    this.socket = SocketIOClient("http://localhost:3000");
     this.socket.on("message", this.onReceivedMessage);
     this.determineUser();
   }
@@ -105,7 +106,7 @@ export default class MessageScreen extends React.Component {
         <GiftedChat
           messages={this.state.messages}
           onSend={this.onSend}
-          user={{user}}
+          user={{_id: 1}}
         />
       </KeyboardAvoidingView>
     );
