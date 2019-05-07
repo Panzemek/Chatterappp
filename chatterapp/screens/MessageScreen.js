@@ -1,93 +1,124 @@
-import React from 'react';
-import { View, TextInput, Button, StyleSheet, Text, KeyboardAvoidingView } from "react-native";
-import { GiftedChat } from "react-native-gifted-chat"
+import React from "react";
+import {
+  View,
+  TextInput,
+  Button,
+  StyleSheet,
+  Text,
+  KeyboardAvoidingView
+} from "react-native";
+import { GiftedChat } from "react-native-gifted-chat";
+import SocketIOClient from "socket.it-client";
 
+const USER_ID = "@userId";
 
 export default class MessageScreen extends React.Component {
-  state = {
-    messages: [],
-    message: "",
-    room: ""
+  constructor(props) {
+    super(props);
+    this.state = {
+      messages: [],
+      room: "",
+      userId: null
+    };
+
+    this.determineUser = this.determineUser.bind(this);
+    this.onReceivedMessage = this.onReceivedMessage.bind(this);
+    this.onSend = this.onSend.bind(this);
+    this._storeMessages = this._storeMessages.bind(this);
+
+    // this.socket = SocketIOClient("http://localhost:3000");
+    this.socket.on("message", this.onReceivedMessage);
+    this.determineUser();
   }
 
-  static navigationOptions = ({navigation}) => {
-    return {title: navigation.getParam("pageToLoad", "Seattle")}
-  }
+  static navigationOptions = ({ navigation }) => {
+    return { title: navigation.getParam("pageToLoad", "Seattle") };
+  };
 
+  /**
+   * When a user joins the chatroom, check if they are an existing user.
+   * If they aren't, then ask the server for a userId.
+   * Set the userId to the component's state.
+   */
+  determineUser() {
+    AsyncStorage.getItem(USER_ID)
+      .then(userId => {
+        // If there isn't a stored userId, then fetch one from the server.
+        // Todo: modify for our server structure
+        if (!userId) {
+          this.socket.emit("join", null);
+          this.socket.on("join", userId => {
+            AsyncStorage.setItem(USER_ID, userId);
+            this.setState({ userId });
+          });
+        } else {
+          this.socket.emit("userJoined", userId);
+          this.setState({ userId });
+        }
+      })
+      .catch(e => alert(e));
+  }
 
   componentDidMount() {
-    let newRoom = this.props.navigation.getParam("pageToLoad", "Seattle")
-    this.setState({room:newRoom})
+    let newRoom = this.props.navigation.getParam("pageToLoad", "Seattle");
+    this.setState({ room: newRoom }, () => {});
   }
 
 
-//   handleSend = () => {
-//     let arr = this.state.messages.slice();
 
-//     if (this.state.message) {
-//       arr.push(this.state.message);
-//       this.setState({
-//         messages: arr,
-//         message: ""
-//       })
-//     }
-//   }
+  componentWillMount() {
+    this.setState({
+      messages: [
+        {
+          _id: 1,
+          text: "Hello developer",
+          createdAt: new Date(),
+          user: {
+            _id: 2,
+            name: "React Native",
+            avatar: "https://placeimg.com/140/140/any"
+          }
+        }
+      ]
+    });
+  }
 
-//   render() {
-//     return (
-//       <View>
-//         <TextInput
-//           value={this.state.message}
-//           onChangeText={message => this.setState({message: message})}
-//           placeholder="Message"
-//           placeholderTextColor="#FFF"
-//           style={styles.input}
-//         />
+  // Event listeners
 
-//         <Button title="Send" onPress={this.handleSend} />
+  onReceivedMessage(messages) {
+    this._storeMessages(messages);
+  }
 
-//         <GiftedChat>{this.state.messages.join(" ")}</GiftedChat>
-//       </View>
-//     )
-//   }
-// }
+  onSend(messages = []) {
+    this.socket.emit("message", messages[0]);
+    this._storeMessages(messages);
+  }
 
-componentWillMount() {
-  this.setState({
-    messages: [
-      {
-        _id: 1,
-        text: 'Hello developer',
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any',
-        },
-      },
-    ],
-  })
-}
+  render() {
+    return (
+      <KeyboardAvoidingView
+        behavior={"padding"}
+        style={{ flex: 1 }}
+        keyboardVerticalOffset={100}
+        enabled
+      >
+        <GiftedChat
+          messages={this.state.messages}
+          onSend={this.onSend}
+          user={{user}}
+        />
+      </KeyboardAvoidingView>
+    );
+  }
 
-onSend(messages = []) {
-  this.setState(previousState => ({
-    messages: GiftedChat.append(previousState.messages, messages),
-  }))
-}
-
-render() {
-  return (
-    <KeyboardAvoidingView behavior={'padding'} style={{flex:1}} keyboardVerticalOffset={100} enabled>
-    <GiftedChat
-      messages={this.state.messages}
-      onSend={messages => this.onSend(messages)}
-      user={{
-        _id: 1,
-      }}
-    />
-    </KeyboardAvoidingView>
-  )
-}
+  // Helper functions
+  _storeMessages(messages) {
+    this.setState(previousState => {
+      return {
+        messages: GiftedChat.append(previousState.messages, messages)
+      };
+    });
+  }
 }
 
 const styles = StyleSheet.create({
