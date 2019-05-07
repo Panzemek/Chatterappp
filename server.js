@@ -76,7 +76,7 @@ function _sendExistingMessages(room, client) {
 function _sendAndSaveMessage(msg, room, client, fromServer) {
   let messageData = {
     text: msg.text,
-    uesr: msg.user,
+    user: msg.user,
     createdAt: new Date(message.createdAt),
     chatId: chatId
   };
