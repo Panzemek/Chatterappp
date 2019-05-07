@@ -3,14 +3,6 @@ import { isSignedIn } from "./auth";
 import { Platform, StatusBar, StyleSheet, View, TextInput } from "react-native";
 import { AppLoading, Asset, Font, Icon } from "expo";
 import AppNavigator from "./navigation/AppNavigator";
-import {
-  register,
-  join,
-  leave,
-  message,
-  registerHandler,
-  unregisterHandler
-} from "./socket";
 
 export default class App extends React.Component {
   state = {
