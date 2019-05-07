@@ -11,7 +11,15 @@ export default class ChatroomScreen extends React.Component {
     }
 
     static navigationOptions = ({ navigation }) => {
-        return { title: navigation.getParam("pageToLoad", "Seattle") }
+        return { 
+            title: navigation.getParam("pageToLoad", "Seattle"),
+            headerRight: (
+                <Button
+                onPress={() => navigation.navigate("App")}
+                title="Go Back"
+                />
+              )
+        }
     }
 
 
@@ -48,10 +56,6 @@ export default class ChatroomScreen extends React.Component {
     render() {
         return (
             <KeyboardAvoidingView behavior={'padding'} style={{ flex: 1 }} keyboardVerticalOffset={100} enabled>
-                <Button
-                    title="Go back"
-                    onPress={this.goBack}
-                />
                 <GiftedChat
                     messages={this.state.messages}
                     onSend={messages => this.onSend(messages)}

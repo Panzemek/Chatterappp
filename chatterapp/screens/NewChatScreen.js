@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet, TextInput } from "react-native";
 import { ExpoLinksView } from "@expo/samples";
 import { MapView } from "expo";
+import { Button } from "react-native-elements";
 
 
 
@@ -14,8 +15,15 @@ let initialReg = {
 
 export default class NewChat extends React.Component {
 
-  static navigationOptions = {
-    headerLeft: null
+  static navigationOptions = ({ navigation }) => {
+    return{
+    headerRight: (
+      <Button
+      onPress={() => navigation.navigate("App")}
+      title="Go Back"
+      />
+    )
+    }
   };
 
   state = {
