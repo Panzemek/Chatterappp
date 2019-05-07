@@ -5,10 +5,11 @@ import {
   Button,
   StyleSheet,
   Text,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  AsyncStorage
 } from "react-native";
 import { GiftedChat } from "react-native-gifted-chat";
-// import SocketIOClient from "socket.it-client";
+import SocketIOClient from "socket.io-client";
 
 const USER_ID = "@userId";
 
@@ -26,8 +27,8 @@ export default class MessageScreen extends React.Component {
     this.onSend = this.onSend.bind(this);
     this._storeMessages = this._storeMessages.bind(this);
 
-    // this.socket = SocketIOClient("http://localhost:3000");
-    // this.socket.on("message", this.onReceivedMessage);
+    this.socket = SocketIOClient("http://localhost:3000");
+    this.socket.on("message", this.onReceivedMessage);
     this.determineUser();
   }
 
@@ -40,24 +41,24 @@ export default class MessageScreen extends React.Component {
    * If they aren't, then ask the server for a userId.
    * Set the userId to the component's state.
    */
-  // determineUser() {
-  //   AsyncStorage.getItem(USER_ID)
-  //     .then(userId => {
-  //       // If there isn't a stored userId, then fetch one from the server.
-  //       // Todo: modify for our server structure
-  //       if (!userId) {
-  //         this.socket.emit("join", null);
-  //         this.socket.on("join", userId => {
-  //           AsyncStorage.setItem(USER_ID, userId);
-  //           this.setState({ userId });
-  //         });
-  //       } else {
-  //         this.socket.emit("userJoined", userId);
-  //         this.setState({ userId });
-  //       }
-  //     })
-  //     .catch(e => alert(e));
-  // }
+  determineUser() {
+    AsyncStorage.getItem(USER_ID)
+      .then(userId => {
+        // If there isn't a stored userId, then fetch one from the server.
+        // Todo: modify for our server structure
+        if (!userId) {
+          this.socket.emit("join", null);
+          this.socket.on("join", userId => {
+            AsyncStorage.setItem(USER_ID, userId);
+            this.setState({ userId });
+          });
+        } else {
+          this.socket.emit("userJoined", userId);
+          this.setState({ userId });
+        }
+      })
+      .catch(e => alert(e));
+  }
 
   componentDidMount() {
     let newRoom = this.props.navigation.getParam("pageToLoad", "Seattle");
@@ -90,8 +91,8 @@ export default class MessageScreen extends React.Component {
   }
 
   onSend(messages = []) {
-    // this.socket.emit("message", messages[0]);
-    // this._storeMessages(messages);
+    this.socket.emit("message", messages[0]);
+    this._storeMessages(messages);
   }
 
   render() {
@@ -105,7 +106,7 @@ export default class MessageScreen extends React.Component {
         <GiftedChat
           messages={this.state.messages}
           onSend={this.onSend}
-          user={{user}}
+          user={{_id: 1}}
         />
       </KeyboardAvoidingView>
     );
