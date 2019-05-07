@@ -3,6 +3,8 @@ import { View, StyleSheet, TextInput } from "react-native";
 import { ExpoLinksView } from "@expo/samples";
 import { MapView } from "expo";
 
+
+
 let initialReg = {
     latitude: 47.6062,
     longitude: -122.3321,
@@ -11,6 +13,11 @@ let initialReg = {
   };
 
 export default class NewChat extends React.Component {
+
+  static navigationOptions = {
+    headerLeft: null
+  };
+
   state = {
     latlng : {
       latitude: 47.6062,
@@ -27,6 +34,7 @@ export default class NewChat extends React.Component {
         <MapView.Marker 
           coordinate={this.state.latlng}
           title={"Press here to create your new room!"}
+          onCalloutPress={() => this.props.navigation.navigate("App")}
         />
         <MapView.Circle
           center={this.state.latlng}
@@ -70,7 +78,7 @@ var styles = StyleSheet.create ({
       marginTop: 20,
       marginLeft: 10,
       marginRight: 10,
-      fontSize: 18,
+      fontSize: 14,
       borderWidth: 1,
       borderRadius: 10,
       borderColor: '#48BBEC',
