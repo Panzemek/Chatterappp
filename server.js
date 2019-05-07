@@ -78,7 +78,7 @@ function _sendAndSaveMessage(msg, room, client, fromServer) {
     text: msg.text,
     user: msg.user,
     createdAt: new Date(message.createdAt),
-    chatId: chatId
+    chatName: room
   };
 
   // Will need to modify database path to math our structure
