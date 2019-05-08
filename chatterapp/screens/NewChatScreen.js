@@ -1,10 +1,8 @@
 import React from "react";
-import { View, StyleSheet, TextInput } from "react-native";
+import { View, StyleSheet, TextInput, Alert} from "react-native";
 import { ExpoLinksView } from "@expo/samples";
 import { MapView } from "expo";
-import { Button } from "react-native-elements";
-
-
+import axios from "axios";
 
 let initialReg = {
     latitude: 47.6062,
@@ -35,6 +33,39 @@ export default class NewChat extends React.Component {
     name:""
   }
 
+  pressLogic = () => {
+    
+    let coordVal = this.state.latlng
+    //radius is stored in meters
+    let radVal = this.state.radius
+    let nameVal = this.state.name
+    let newChat = {
+      title: nameVal,
+      description: "placeholder",
+      location: coordVal,
+      messages:[]
+    }
+
+    if (coordVal && radVal && nameVal) {
+      //TODO: test this
+      //also redirect user to new room
+      axios.post('https://murmuring-sea-22252.herokuapp.com/createChat', newChat).then(res=>{
+        console.log(res);
+        //TODO: REDIRECT TO NEW PAGE HERE
+      })
+    } else {
+      //TODO: alert user that values are needed, also test this
+      Alert.alert(
+        'please enter appropriate values',
+        [{
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },]
+      )
+    }
+  }
+
   render() {
     return(
     <View style={styles.container}>
@@ -53,10 +84,15 @@ export default class NewChat extends React.Component {
         <TextInput 
           style={styles.input}
           onChangeText={name => this.setState({name: name})}
+          defaultValue={"Enter Chat Name Here"}
+          clearTextOnFocus={true}
         />
         <TextInput 
           style={styles.input}
           onChangeText={radius => this.setState({radius: radius})}
+          defaultValue={"Radius"}
+          clearTextOnFocus={true}
+          keyboardType={"number-pad"}
         />
       </View>
     </View>
