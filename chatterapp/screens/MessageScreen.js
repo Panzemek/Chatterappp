@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { GiftedChat } from "react-native-gifted-chat";
 import SocketIOClient from "socket.io-client";
+import axios from "axios";
 
 const USER_ID = "@userId";
 
@@ -62,7 +63,14 @@ export default class MessageScreen extends React.Component {
 
   componentDidMount() {
     let newRoom = this.props.navigation.getParam("pageToLoad", "Seattle");
-    this.setState({ room: newRoom }, () => {});
+    this.setState({ room: newRoom }, () => {
+      let connStr = "https://murmuring-sea-22252.herokuapp.com/message/" + this.state.room
+      axios.get(connStr).then(res=> {
+        let dbMessages = res;
+        console.log(dbMessages)
+        this.setState({ messages:dbMessages })
+      })
+    });
   }
 
 
