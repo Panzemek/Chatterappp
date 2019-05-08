@@ -15,21 +15,28 @@ class SignUpScreen extends Component {
           placeholder="Username"
           placeholderTextColor="#FFF"
           style={styles.input}
+          autoCapitalize={"none"}
         />
         <TextInput
           placeholder="Email"
           placeholderTextColor="#FFF"
           style={styles.input}
+          keyboardType={"email-address"}
+          autoCapitalize={"none"}
         />
         <TextInput
           placeholder="Password"
           placeholderTextColor="#FFF"
           style={styles.input}
+          secureTextEntry={true}
+          autoCapitalize={"none"}
         />
         <TextInput
           placeholder="Confirm Password"
           placeholderTextColor="#FFF"
           style={styles.input}
+          secureTextEntry={true}
+          autoCapitalize={"none"}
         />
         
 
