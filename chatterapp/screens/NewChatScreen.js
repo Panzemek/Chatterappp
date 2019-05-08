@@ -73,11 +73,7 @@ export default class NewChat extends React.Component {
         <MapView.Marker 
           coordinate={this.state.latlng}
           title={"Press here to create your new room!"}
-<<<<<<< HEAD
-          onPress={this.pressLogic()}
-=======
           onCalloutPress={() => this.props.navigation.navigate("App")}
->>>>>>> 0341a8508b169ed05663590c2ebf9a7c5265fed1
         />
         <MapView.Circle
           center={this.state.latlng}
