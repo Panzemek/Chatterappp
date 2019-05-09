@@ -20,7 +20,8 @@ export default class NewChat extends React.Component {
       onPress={() => navigation.navigate("App")}
       title="Go Back"
       />
-    )
+    ),
+    headerLeft: null
     }
   };
 
@@ -29,17 +30,14 @@ export default class NewChat extends React.Component {
       latitude: 47.6062,
       longitude: -122.3321
     },
-    radius: 1000,
-    name:""
+    radius: 0,
+    name:null
   }
 
   pressLogic = () => {
     let coordVal = this.state.latlng
     let radVal = this.state.radius
     let nameVal = this.state.name
-    if (!coordVal || !radVal || !nameVal) {
-      return;
-    }
     let newChat = {
       title: nameVal,
       description: "placeholder",
@@ -51,15 +49,18 @@ export default class NewChat extends React.Component {
     if (coordVal && radVal && nameVal) {
       //TODO: test this
       //also redirect user to new room
-      console.log(newChat)
+      console.log("conditions are met")
       axios.post('https://murmuring-sea-22252.herokuapp.com/createChat', newChat).then(res=>{
         this.props.navigation.navigate("MsgRoom", {pageToLoad : newChat.title})
+        
         //should show error if namevalue is dupe in db
-      })
+      }).catch(err => err)
     } else {
+      console.log("the alert should fire")
       //TODO: alert user that values are needed, also test this
       Alert.alert(
-        'please enter appropriate values',
+        'Information is not complete',
+        'Please enter appropriate values',
         [{
           text: 'Cancel',
           onPress: () => console.log('Cancel Pressed'),
