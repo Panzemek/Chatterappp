@@ -46,7 +46,7 @@ class SignInScreen extends Component {
         else {
           Alert.alert(
             "Wrong Password",
-            "Please check your password",
+            "Please check your password. (Password is case sensitive)",
             [
               { text: "Okay", onPress: () => console.log('Okay') }
             ]
@@ -57,7 +57,7 @@ class SignInScreen extends Component {
     }
     Alert.alert(
       "Wrong Username",
-      "Please check your username, or create a new account",
+      "Please check your username, or create a new account. (Username is case sensitive)",
       [
         { text: "Okay", onPress: () => console.log("Okay") }
       ]
