@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, TextInput, Alert} from "react-native";
+import { View, StyleSheet, TextInput, Alert, Button} from "react-native";
 import { ExpoLinksView } from "@expo/samples";
 import { MapView } from "expo";
 import axios from "axios";
@@ -20,7 +20,8 @@ export default class NewChat extends React.Component {
       onPress={() => navigation.navigate("App")}
       title="Go Back"
       />
-    )
+    ),
+    headerLeft: null
     }
   };
 
@@ -29,34 +30,37 @@ export default class NewChat extends React.Component {
       latitude: 47.6062,
       longitude: -122.3321
     },
-    radius: 1000,
-    name:""
+    radius: 0,
+    name:null
   }
 
   pressLogic = () => {
-    
     let coordVal = this.state.latlng
-    //radius is stored in meters
     let radVal = this.state.radius
     let nameVal = this.state.name
     let newChat = {
       title: nameVal,
       description: "placeholder",
       location: coordVal,
-      messages:[]
+      defaultRoom: false
     }
+    
 
     if (coordVal && radVal && nameVal) {
       //TODO: test this
       //also redirect user to new room
+      console.log("conditions are met")
       axios.post('https://murmuring-sea-22252.herokuapp.com/createChat', newChat).then(res=>{
-        console.log(res);
-        //TODO: REDIRECT TO NEW PAGE HERE
-      })
+        this.props.navigation.navigate("MsgRoom", {pageToLoad : newChat.title})
+        
+        //should show error if namevalue is dupe in db
+      }).catch(err => err)
     } else {
+      console.log("the alert should fire")
       //TODO: alert user that values are needed, also test this
       Alert.alert(
-        'please enter appropriate values',
+        'Information is not complete',
+        'Please enter appropriate values',
         [{
           text: 'Cancel',
           onPress: () => console.log('Cancel Pressed'),
@@ -70,10 +74,12 @@ export default class NewChat extends React.Component {
     return(
     <View style={styles.container}>
       <MapView style={styles.map} initialRegion={initialReg}>
-        <MapView.Marker 
+        <MapView.Marker draggable
+          onDragEnd={(e) => this.setState({ latlng: e.nativeEvent.coordinate })}
           coordinate={this.state.latlng}
           title={"Press here to create your new room!"}
-          onCalloutPress={() => this.props.navigation.navigate("App")}
+          onCalloutPress={() => this.pressLogic()}
+          draggable
         />
         <MapView.Circle
           center={this.state.latlng}
@@ -84,13 +90,13 @@ export default class NewChat extends React.Component {
         <TextInput 
           style={styles.input}
           onChangeText={name => this.setState({name: name})}
-          defaultValue={"Enter Chat Name Here"}
+          placeholder={"Chat Name - Press on Marker to create room"}
           clearTextOnFocus={true}
         />
         <TextInput 
           style={styles.input}
-          onChangeText={radius => this.setState({radius: radius})}
-          defaultValue={"Radius"}
+          onChangeText={radius => this.setState({radius: parseInt(radius)})}
+          placeholder={"Radius (meters)"}
           clearTextOnFocus={true}
           keyboardType={"number-pad"}
         />

@@ -58,6 +58,8 @@ function onMessageReceived(msg, room, senderClient) {
     return;
   }
 
+  console.log("SENT");
+
   _sendAndSaveMessage(msg, room, senderClient);
 }
 

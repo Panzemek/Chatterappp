@@ -61,6 +61,13 @@ export default class MessageScreen extends React.Component {
       .catch(e => alert(e));
   }
 
+  retrieveData = async () => {
+    const value = await AsyncStorage.getItem("userToken");
+    if(value != null) {
+      console.log(value)
+    }
+  }
+
   componentDidMount() {
     let newRoom = this.props.navigation.getParam("pageToLoad", "Seattle");
     this.setState({ room: newRoom }, () => {
