@@ -4,6 +4,8 @@ import { Platform, StatusBar, StyleSheet, View, TextInput } from "react-native";
 import { AppLoading, Asset, Font, Icon } from "expo";
 import AppNavigator from "./navigation/AppNavigator";
 
+console.disableYellowBox = true;
+
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false,

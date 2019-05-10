@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, TextInput } from "react-native";
+import { View, StyleSheet, TextInput, ActivityIndicator, Modal } from "react-native";
 import { ExpoLinksView } from "@expo/samples";
 import { MapView } from "expo";
 import Coords from "../assets/nHoodCords";
@@ -22,7 +22,8 @@ export default class LinksScreen extends React.Component {
       longitude: -122.3321
     },
     error: null,
-    stCoords: []
+    stCoords: [],
+    modalVisible: false
   }
 
   static navigationOptions = {
@@ -30,6 +31,8 @@ export default class LinksScreen extends React.Component {
   };
 
   handlePress = (e) => {
+    this.setState({modalVisible:true}, () => {
+    console.log("modal show val " + this.state.modalVisible)
     coordinates = [e.coordinate.longitude, e.coordinate.latitude]
     //HERE BE BAD CODEEEEEEE
           //but it works
@@ -40,15 +43,15 @@ export default class LinksScreen extends React.Component {
         this.props.navigation.navigate("MsgRoom", {pageToLoad : Coords[i].properties.neighborhood})
       }
     }
-    for(j=0;j<this.state.stCoords.length; j++) {
-      nHoodCoord = this.state.stCoords[j].location
-      console.log(nHoodCoord)
-      console.log(coordinates)
+    nHoodList = this.state.stCoords
+    for(j=0;j<nHoodList.length; j++) {
+      nHoodCoord = nHoodList[j].location
       if (coordinates[0]===nHoodCoord.longitude && coordinates[1]===nHoodCoord.latitude) {
         console.log('nhood is ' + this.state.stCoords[j].title)
         this.props.navigation.navigate("MsgRoom", {pageToLoad : this.state.stCoords[j].title})
       }
     }
+  })
   }
 
 
@@ -79,6 +82,15 @@ export default class LinksScreen extends React.Component {
 
   render() {
     return (
+      <View style={styles.container}>
+        <Modal
+          style={styles.modal}
+          animationType="slide"
+          visible={this.state.modalVisible}
+          onRequestClose={() => console.log('modal was backed out of')}
+        >
+          <ActivityIndicator size="large" color="#0000ff" />
+        </Modal>
       <MapView style={{ flex: 1 }} initialRegion={initialReg}>
         <MapView.Marker
             coordinate={this.state.coords}
@@ -110,6 +122,20 @@ export default class LinksScreen extends React.Component {
             })}
         
       </MapView>
+      </View>
     );
   }
 }
+
+var styles = StyleSheet.create ({
+  container: {
+      flex: 1,
+      justifyContent: 'center',
+      backgroundColor: '#F5FCFF'
+  },
+  modal: {
+    height: 40,
+    marginBottom: 20,
+    paddingHorizontal: 10
+  }
+})

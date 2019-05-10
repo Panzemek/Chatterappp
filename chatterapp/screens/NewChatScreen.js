@@ -27,8 +27,8 @@ export default class NewChat extends React.Component {
 
   state = {
     latlng : {
-      latitude: 47.6062,
-      longitude: -122.3321
+      latitude: 47.6162,
+      longitude: -122.3221
     },
     radius: 0,
     name:null

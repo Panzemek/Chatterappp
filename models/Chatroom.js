@@ -16,7 +16,7 @@ const ChatroomSchema = new Schema({
     messages: [
         {
             // Type is the message id
-            type: Schema.Types.ObjectId,
+            type: String,
             // Reference the Message Id
             ref: "Message"
         }
