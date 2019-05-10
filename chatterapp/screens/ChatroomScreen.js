@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { GiftedChat } from "react-native-gifted-chat";
 import SocketIOClient from "socket.io-client";
+import Loading from "../components/Loading/Loading"
 
 const USER_ID = "@userId";
 
@@ -19,7 +20,8 @@ export default class MessageScreen extends React.Component {
     this.state = {
       messages: [],
       room: "",
-      userId: null
+      userId: null,
+      loading: false
     };
 
     this.determineUser = this.determineUser.bind(this);
@@ -32,12 +34,20 @@ export default class MessageScreen extends React.Component {
     this.determineUser();
   }
 
+  handleBack = () => {
+    this.setState({loading: true}, () => {
+      console.log("hello")
+      navigation.navigate("App")
+    })
+  }
+
   static navigationOptions = ({ navigation }) => {
     return { 
         title: navigation.getParam("pageToLoad", "Seattle"),
         headerRight: (
             <Button
-            onPress={() => navigation.navigate("App")}
+            onPress={() => navigation.navigate("App")
+            }
             title="Go Back"
             />
           )
