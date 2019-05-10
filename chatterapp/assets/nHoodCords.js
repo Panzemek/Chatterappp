@@ -1,5 +1,6 @@
 const Coords = [
     {
+      defaultRoom: false,
       type: "Feature",
       properties: {
         neighborhood: "Capitol Hill"
@@ -10,6 +11,7 @@ const Coords = [
       }
     },
     {
+      defaultRoom: false,
       type: "Feature",
       properties: {
         neighborhood: "South Lake Union"
@@ -20,6 +22,7 @@ const Coords = [
       }
     },
     {
+      defaultRoom: false,
       type: "Feature",
       properties: {
         neighborhood: "Queen Anne"
@@ -30,6 +33,7 @@ const Coords = [
       }
     },
     {
+      defaultRoom: false,
       type: "Feature",
       properties: {
         neighborhood: "Magnolia"
@@ -40,6 +44,7 @@ const Coords = [
       }
     },
     {
+      defaultRoom: false,
       type: "Feature",
       properties: {
         neighborhood: "Ballard"
@@ -50,6 +55,7 @@ const Coords = [
       }
     },
     {
+      defaultRoom: false,
       type: "Feature",
       properties: {
         neighborhood: "Fremont"
@@ -60,6 +66,7 @@ const Coords = [
       }
     },
     {
+      defaultRoom: false,
       type: "Feature",
       properties: {
         neighborhood: "University District"
@@ -70,6 +77,7 @@ const Coords = [
       }
     },
     {
+      defaultRoom: false,
       type: "Feature",
       properties: {
         neighborhood: "Madison Park"
@@ -80,6 +88,7 @@ const Coords = [
       }
     },
     {
+      defaultRoom: false,
       type: "Feature",
       properties: {
         neighborhood: "First Hill"
@@ -90,6 +99,7 @@ const Coords = [
       }
     },
     {
+      defaultRoom: false,
       type: "Feature",
       properties: {
         neighborhood: "Central District"
@@ -100,6 +110,7 @@ const Coords = [
       }
     },
     {
+      defaultRoom: false,
       type: "Feature",
       properties: {
         neighborhood: "Downtown"
@@ -110,6 +121,7 @@ const Coords = [
       }
     },
     {
+      defaultRoom: false,
       type: "Feature",
       properties: {
         neighborhood: "Belltown"
@@ -120,6 +132,7 @@ const Coords = [
       }
     },
     {
+      defaultRoom: false,
       type: "Feature",
       properties: {
         neighborhood: "International District"
@@ -130,6 +143,7 @@ const Coords = [
       }
     },
     {
+      defaultRoom: false,
       type: "Feature",
       properties: {
         neighborhood: "Mount Baker"
@@ -140,6 +154,7 @@ const Coords = [
       }
     },
     {
+      defaultRoom: false,
       type: "Feature",
       properties: {
         neighborhood: "Beacon Hill"
@@ -150,6 +165,7 @@ const Coords = [
       }
     },
     {
+      defaultRoom: false,
       type: "Feature",
       properties: {
         neighborhood: "SoDo"
@@ -160,6 +176,7 @@ const Coords = [
       }
     },
     {
+      defaultRoom: false,
       type: "Feature",
       properties: {
         neighborhood: "Denny-Blaine"
