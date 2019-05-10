@@ -37,7 +37,7 @@ class SignInScreen extends Component {
     let name;
     let password;
     for (let i = 0; i < this.state.users.length; i++) {
-      name = this.state.users[i].userName;
+      name = this.state.users[i].name;
       password = this.state.users[i].password;
       if (this.state.username.trim() == name) {
         if (this.state.password.trim() == password) {
