@@ -10,9 +10,13 @@ import {
 } from "react-native";
 import { GiftedChat } from "react-native-gifted-chat";
 import SocketIOClient from "socket.io-client";
+<<<<<<< HEAD
 import Loading from "../components/Loading/Loading"
+=======
+import axios from "axios";
+>>>>>>> cbaefcde790a1fd1c7f94f1afa6daee286fe8f36
 
-const USER_ID = "@userId";
+const userToken = "@userId";
 
 export default class MessageScreen extends React.Component {
   constructor(props) {
@@ -20,8 +24,12 @@ export default class MessageScreen extends React.Component {
     this.state = {
       messages: [],
       room: "",
+<<<<<<< HEAD
       userId: null,
       loading: false
+=======
+      userId: "Sammy"
+>>>>>>> cbaefcde790a1fd1c7f94f1afa6daee286fe8f36
     };
 
     this.determineUser = this.determineUser.bind(this);
@@ -29,7 +37,8 @@ export default class MessageScreen extends React.Component {
     this.onSend = this.onSend.bind(this);
     this._storeMessages = this._storeMessages.bind(this);
 
-    this.socket = SocketIOClient("http://localhost:3000");
+    this.socket = SocketIOClient("https://murmuring-sea-22252.herokuapp.com/");
+    // this.socket = SocketIOClient("http://10.0.2.2:3001");
     this.socket.on("message", this.onReceivedMessage);
     this.determineUser();
   }
@@ -42,6 +51,7 @@ export default class MessageScreen extends React.Component {
   }
 
   static navigationOptions = ({ navigation }) => {
+<<<<<<< HEAD
     return { 
         title: navigation.getParam("pageToLoad", "Seattle"),
         headerRight: (
@@ -53,6 +63,15 @@ export default class MessageScreen extends React.Component {
           )
     }
   }
+=======
+    return {
+      title: navigation.getParam("pageToLoad", "Seattle"),
+      headerRight: (
+        <Button onPress={() => navigation.navigate("App")} title="Go Back" />
+      )
+    };
+  };
+>>>>>>> cbaefcde790a1fd1c7f94f1afa6daee286fe8f36
 
   /**
    * When a user joins the chatroom, check if they are an existing user.
@@ -60,30 +79,37 @@ export default class MessageScreen extends React.Component {
    * Set the userId to the component's state.
    */
   determineUser() {
-    AsyncStorage.getItem(USER_ID)
-      .then(userId => {
-        // If there isn't a stored userId, then fetch one from the server.
-        // Todo: modify for our server structure
-        if (!userId) {
-          this.socket.emit("join", null);
-          this.socket.on("join", userId => {
-            AsyncStorage.setItem(USER_ID, userId);
-            this.setState({ userId });
-          });
-        } else {
-          this.socket.emit("userJoined", userId);
-          this.setState({ userId });
-        }
-      })
-      .catch(e => alert(e));
+    // AsyncStorage.getItem(userToken)
+    //   .then(userId => {
+    //     // If there isn't a stored userId, then fetch one from the server.
+    //     // Todo: modify for our server structure
+    //     if (!userId) {
+    //       this.socket.emit("join", null);
+    //       this.socket.on("join", userId => {
+    //         AsyncStorage.setItem(userToken, userId);
+    //         this.setState({ userId });
+    //       });
+    //     } else {
+    //       this.socket.emit("userJoined", userId);
+    //       this.setState({ userId });
+    //     }
+    //   })
+    //   .catch(e => alert(e));
   }
 
   componentDidMount() {
     let newRoom = this.props.navigation.getParam("pageToLoad", "Seattle");
-    this.setState({ room: newRoom }, () => {});
+    this.setState({ room: newRoom }, () => {
+      this.socket.emit("join", this.state.userId, this.state.room);
+      // let connStr =
+      //   "https://murmuring-sea-22252.herokuapp.com/message/" + this.state.room;
+      // axios.get(connStr).then(res => {
+      //   let dbMessages = res;
+      //   console.log(dbMessages);
+      //   this.setState({ messages: dbMessages });
+      // });
+    });
   }
-
-
 
   componentWillMount() {
     this.setState({
@@ -109,7 +135,9 @@ export default class MessageScreen extends React.Component {
   }
 
   onSend(messages = []) {
-    this.socket.emit("message", messages[0]);
+    console.log("client: ");
+    console.log(messages[0]);
+    this.socket.emit("message", messages[0], this.state.room);
     this._storeMessages(messages);
   }
 
@@ -124,7 +152,7 @@ export default class MessageScreen extends React.Component {
         <GiftedChat
           messages={this.state.messages}
           onSend={this.onSend}
-          user={{_id: 1}}
+          user={{ _id: 1 }}
         />
       </KeyboardAvoidingView>
     );

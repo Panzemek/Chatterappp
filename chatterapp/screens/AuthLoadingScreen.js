@@ -1,19 +1,24 @@
+//Loading Authentication screen
+
 //import liraries
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator, AsyncStorage } from 'react-native';
 
 // create a component
 class AuthLoadingScreen extends Component {
-    constructor(){
+    constructor() {
         super()
         this.loadApp()
     }
 
-    loadApp = async() => {
+    //On load app, get the userToken from AsyncStorage
+    loadApp = async () => {
         const userToken = await AsyncStorage.getItem("userToken")
 
         this.props.navigation.navigate(userToken ? "App" : "Auth")
     }
+
+    //render the activity indicator
     render() {
         return (
             <View style={styles.container}>
