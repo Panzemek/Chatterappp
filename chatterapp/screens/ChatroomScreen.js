@@ -28,8 +28,8 @@ export default class MessageScreen extends React.Component {
     this.onSend = this.onSend.bind(this);
     this._storeMessages = this._storeMessages.bind(this);
 
-    // this.socket = SocketIOClient("https://murmuring-sea-22252.herokuapp.com/");
-    this.socket = SocketIOClient("http://10.0.2.2:3001");
+    this.socket = SocketIOClient("https://murmuring-sea-22252.herokuapp.com/");
+    // this.socket = SocketIOClient("http://10.0.2.2:3001");
     this.socket.on("message", this.onReceivedMessage);
     this.determineUser();
   }
