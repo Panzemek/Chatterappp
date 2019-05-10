@@ -20,7 +20,7 @@ export default class MessageScreen extends React.Component {
     this.state = {
       messages: [],
       room: "",
-      userId: null
+      userId: "Sammy"
     };
 
     this.determineUser = this.determineUser.bind(this);
@@ -28,7 +28,8 @@ export default class MessageScreen extends React.Component {
     this.onSend = this.onSend.bind(this);
     this._storeMessages = this._storeMessages.bind(this);
 
-    this.socket = SocketIOClient("https://murmuring-sea-22252.herokuapp.com/");
+    // this.socket = SocketIOClient("https://murmuring-sea-22252.herokuapp.com/");
+    this.socket = SocketIOClient("http://10.0.2.2:3001");
     this.socket.on("message", this.onReceivedMessage);
     this.determineUser();
   }
@@ -43,37 +44,37 @@ export default class MessageScreen extends React.Component {
    * Set the userId to the component's state.
    */
   determineUser() {
-    AsyncStorage.getItem(USER_ID)
-      .then(userId => {
-        // If there isn't a stored userId, then fetch one from the server.
-        // Todo: modify for our server structure
-        if (!userId) {
-          this.socket.emit("join", null);
-          this.socket.on("join", userId => {
-            AsyncStorage.setItem(USER_ID, userId);
-            this.setState({ userId });
-          });
-        } else {
-          this.socket.emit("userJoined", userId);
-          this.setState({ userId });
-        }
-      })
-      .catch(e => alert(e));
+    // AsyncStorage.getItem(USER_ID)
+    //   .then(userId => {
+    //     // If there isn't a stored userId, then fetch one from the server.
+    //     // Todo: modify for our server structure
+    //     if (!userId) {
+    //       this.socket.emit("join", null);
+    //       this.socket.on("join", userId => {
+    //         AsyncStorage.setItem(USER_ID, userId);
+    //         this.setState({ userId });
+    //       });
+    //     } else {
+    //       this.socket.emit("userJoined", userId);
+    //       this.setState({ userId });
+    //     }
+    //   })
+    //   .catch(e => alert(e));
   }
 
   componentDidMount() {
     let newRoom = this.props.navigation.getParam("pageToLoad", "Seattle");
     this.setState({ room: newRoom }, () => {
-      let connStr = "https://murmuring-sea-22252.herokuapp.com/message/" + this.state.room
-      axios.get(connStr).then(res=> {
-        let dbMessages = res;
-        console.log(dbMessages)
-        this.setState({ messages:dbMessages })
-      })
+      this.socket.emit("join", this.state.userId, this.state.room);
+      // let connStr =
+      //   "https://murmuring-sea-22252.herokuapp.com/message/" + this.state.room;
+      // axios.get(connStr).then(res => {
+      //   let dbMessages = res;
+      //   console.log(dbMessages);
+      //   this.setState({ messages: dbMessages });
+      // });
     });
   }
-
-
 
   componentWillMount() {
     this.setState({
@@ -95,11 +96,13 @@ export default class MessageScreen extends React.Component {
   // Event listeners
 
   onReceivedMessage(messages) {
+    console.log("received messages");
+    console.log(messages);
     this._storeMessages(messages);
   }
 
   onSend(messages = []) {
-    this.socket.emit("message", messages[0]);
+    this.socket.emit("message", messages[0], this.state.room);
     this._storeMessages(messages);
   }
 
@@ -114,7 +117,7 @@ export default class MessageScreen extends React.Component {
         <GiftedChat
           messages={this.state.messages}
           onSend={this.onSend}
-          user={{_id: 1}}
+          user={{ _id: 1 }}
         />
       </KeyboardAvoidingView>
     );

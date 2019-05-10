@@ -5,18 +5,35 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 //Create a new Schema obj
-const MessageSchema = new Schema({
+const MessageSchema = new Schema(
+  {
     // Message
-    message: String,
-    // Time is was create
-    date: String,
+    text: String,
+    // Time is was created
+    createdAt: { type: Date, default: Date.now },
     // Message owner
-    name: String
+    user: {
+      ref: "User",
+      type: String
+    }
+  }
+  // , { toJSON: { virtuals: true } }
+);
 
-})
+// MessageSchema.virtual('user', {
+//     ref: 'User',
+//     localField: 'name',
+//     foreignField: 'userName',
+//     justOne: true
+// })
 
 // Create model with the Schema above
 const Message = mongoose.model("Message", MessageSchema);
 
 //Export Chatroom model
 module.exports = Message;
+
+// .populate('name').exec((err, user)=> {
+//     if (err) return err;
+//     res.json
+// })
