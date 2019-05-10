@@ -114,7 +114,7 @@ class SignUpScreen extends Component {
         if (this.validateEmail(this.state.email)) {
           if (this.checkPassword()) {
             let user = {
-              userName: this.state.username,
+              name: this.state.username,
               password: this.state.confirmPass,
               firstName: this.state.firstname,
               lastName: this.state.lastname
