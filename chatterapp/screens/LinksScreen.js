@@ -24,7 +24,7 @@ export default class LinksScreen extends React.Component {
     },
     error: null,
     stCoords: [],
-    loading: false
+    modalVisible: false
   }
 
   static navigationOptions = {
@@ -32,25 +32,27 @@ export default class LinksScreen extends React.Component {
   };
 
   handlePress = (e) => {
-    this.setState({ loading: true }, () => {
-      coordinates = [e.coordinate.longitude, e.coordinate.latitude]
-      //HERE BE BAD CODEEEEEEE
-      //but it works
-      for (i = 0; i < Coords.length; i++) {
-        nHoodCoord = Coords[i].geometry.coordinates
-        if (coordinates[0] === nHoodCoord[0] && coordinates[1] === nHoodCoord[1]) {
-          console.log('nhood is ' + Coords[i].properties.neighborhood)
-          this.props.navigation.navigate("MsgRoom", { pageToLoad: Coords[i].properties.neighborhood })
-        }
+    this.setState({modalVisible:true}, () => {
+    console.log("modal show val " + this.state.modalVisible)
+    coordinates = [e.coordinate.longitude, e.coordinate.latitude]
+    //HERE BE BAD CODEEEEEEE
+          //but it works
+    for (i=0; i<Coords.length; i++) {
+      nHoodCoord = Coords[i].geometry.coordinates
+      if (coordinates[0]===nHoodCoord[0] && coordinates[1]===nHoodCoord[1]) {
+        console.log('nhood is ' + Coords[i].properties.neighborhood)
+        this.props.navigation.navigate("MsgRoom", {pageToLoad : Coords[i].properties.neighborhood})
       }
-      for (j = 0; j < this.state.stCoords.length; j++) {
-        nHoodCoord = this.state.stCoords[j].location
-        if (coordinates[0] === nHoodCoord.longitude && coordinates[1] === nHoodCoord.latitude) {
-          console.log('nhood is ' + this.state.stCoords[j].title)
-          this.props.navigation.navigate("MsgRoom", { pageToLoad: this.state.stCoords[j].title })
-        }
+    }
+    nHoodList = this.state.stCoords
+    for(j=0;j<nHoodList.length; j++) {
+      nHoodCoord = nHoodList[j].location
+      if (coordinates[0]===nHoodCoord.longitude && coordinates[1]===nHoodCoord.latitude) {
+        console.log('nhood is ' + this.state.stCoords[j].title)
+        this.props.navigation.navigate("MsgRoom", {pageToLoad : this.state.stCoords[j].title})
       }
-    })
+    }
+  })
   }
 
 
@@ -83,9 +85,16 @@ export default class LinksScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Loading loading={this.state.loading} />
-        <MapView style={{ flex: 1 }} initialRegion={initialReg}>
-          <MapView.Marker
+        <Modal
+          style={styles.modal}
+          animationType="slide"
+          visible={this.state.modalVisible}
+          onRequestClose={() => console.log('modal was backed out of')}
+        >
+          <ActivityIndicator size="large" color="#0000ff" />
+        </Modal>
+      <MapView style={{ flex: 1 }} initialRegion={initialReg}>
+        <MapView.Marker
             coordinate={this.state.coords}
             // image={require("../assets/images/marker.png")}
             title={"This is your location!"}
@@ -111,30 +120,24 @@ export default class LinksScreen extends React.Component {
                 coordinate={coord.location}
                 pinColor={'#144ca8'}
               />
-              : null
-          })}
-
-        </MapView>
+            : null
+            })}
+        
+      </MapView>
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
+var styles = StyleSheet.create ({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: '#fff',
+      flex: 1,
+      justifyContent: 'center',
+      backgroundColor: '#F5FCFF'
   },
-  loading: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    opacity: 0.5,
-    backgroundColor: 'black',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-});
+  modal: {
+    height: 40,
+    marginBottom: 20,
+    paddingHorizontal: 10
+  }
+})
