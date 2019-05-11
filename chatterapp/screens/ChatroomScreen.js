@@ -10,11 +10,8 @@ import {
 } from "react-native";
 import { GiftedChat } from "react-native-gifted-chat";
 import SocketIOClient from "socket.io-client";
-<<<<<<< HEAD
-import Loading from "../components/Loading/Loading"
-=======
 import axios from "axios";
->>>>>>> cbaefcde790a1fd1c7f94f1afa6daee286fe8f36
+import API from "../utils/API"
 
 const userToken = "@userId";
 
@@ -22,15 +19,12 @@ export default class MessageScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      users: [],
       messages: [],
       room: "",
-<<<<<<< HEAD
-      userId: null,
-      loading: false
-=======
-      userId: "Sammy"
->>>>>>> cbaefcde790a1fd1c7f94f1afa6daee286fe8f36
+      userId: ""
     };
+
 
     this.determineUser = this.determineUser.bind(this);
     this.onReceivedMessage = this.onReceivedMessage.bind(this);
@@ -43,27 +37,7 @@ export default class MessageScreen extends React.Component {
     this.determineUser();
   }
 
-  handleBack = () => {
-    this.setState({loading: true}, () => {
-      console.log("hello")
-      navigation.navigate("App")
-    })
-  }
-
   static navigationOptions = ({ navigation }) => {
-<<<<<<< HEAD
-    return { 
-        title: navigation.getParam("pageToLoad", "Seattle"),
-        headerRight: (
-            <Button
-            onPress={() => navigation.navigate("App")
-            }
-            title="Go Back"
-            />
-          )
-    }
-  }
-=======
     return {
       title: navigation.getParam("pageToLoad", "Seattle"),
       headerRight: (
@@ -71,7 +45,22 @@ export default class MessageScreen extends React.Component {
       )
     };
   };
->>>>>>> cbaefcde790a1fd1c7f94f1afa6daee286fe8f36
+
+  loadUsers = () => {
+    API.getUsers().then(res => this.setState({ users: res.data }, () => {
+      let name;
+      AsyncStorage.getItem("userToken").then(data => {
+        console.log(data);
+        for (var i = 0; i < this.state.users.length; i++) {
+          name = this.state.users[i];
+          if (name.name == data) {
+            this.setState({userId: name.name})
+          }
+        }
+      })
+    }))
+      .catch(err => console.log(err))
+  }
 
   /**
    * When a user joins the chatroom, check if they are an existing user.
@@ -99,7 +88,10 @@ export default class MessageScreen extends React.Component {
 
   componentDidMount() {
     let newRoom = this.props.navigation.getParam("pageToLoad", "Seattle");
-    this.setState({ room: newRoom }, () => {
+    this.setState({
+      userId: this.loadUsers(),
+      room: newRoom,
+    }, () => {
       this.socket.emit("join", this.state.userId, this.state.room);
       // let connStr =
       //   "https://murmuring-sea-22252.herokuapp.com/message/" + this.state.room;
@@ -152,7 +144,10 @@ export default class MessageScreen extends React.Component {
         <GiftedChat
           messages={this.state.messages}
           onSend={this.onSend}
-          user={{ _id: 1 }}
+          user={{
+            _id: this.state.userId,
+            name: this.state.userId
+          }}
         />
       </KeyboardAvoidingView>
     );

@@ -6,7 +6,6 @@ import SignInScreen from '../screens/SignIn';
 import SignUpScreen from '../screens/Signup';
 import Welcome from "../screens/Welcome";
 import HomeScreen from '../screens/HomeScreen';
-import NewRoom from "../components/NewRoom/NewRoom";
 import NewChatScreen from "../screens/NewChatScreen";
 import ChatroomScreen from "../screens/ChatroomScreen"
 import LinksScreen from "../screens/LinksScreen"

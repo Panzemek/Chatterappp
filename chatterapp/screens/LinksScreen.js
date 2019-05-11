@@ -1,10 +1,11 @@
+//import dependencies
+
 import React from "react";
 import { View, StyleSheet, TextInput, ActivityIndicator, Modal } from "react-native";
 import { ExpoLinksView } from "@expo/samples";
 import { MapView } from "expo";
 import Coords from "../assets/nHoodCords";
 import axios from "axios";
-import Loading from "../components/Loading/Loading"
 
 let initialReg = {
   latitude: 47.6062,
@@ -33,14 +34,12 @@ export default class LinksScreen extends React.Component {
 
   handlePress = (e) => {
     this.setState({modalVisible:true}, () => {
-    console.log("modal show val " + this.state.modalVisible)
     coordinates = [e.coordinate.longitude, e.coordinate.latitude]
     //HERE BE BAD CODEEEEEEE
           //but it works
     for (i=0; i<Coords.length; i++) {
       nHoodCoord = Coords[i].geometry.coordinates
       if (coordinates[0]===nHoodCoord[0] && coordinates[1]===nHoodCoord[1]) {
-        console.log('nhood is ' + Coords[i].properties.neighborhood)
         this.props.navigation.navigate("MsgRoom", {pageToLoad : Coords[i].properties.neighborhood})
       }
     }

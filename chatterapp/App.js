@@ -7,6 +7,7 @@ import AppNavigator from "./navigation/AppNavigator";
 console.disableYellowBox = true;
 
 export default class App extends React.Component {
+  
   state = {
     isLoadingComplete: false,
     signedIn: false,
@@ -65,6 +66,8 @@ export default class App extends React.Component {
     this.setState({ isLoadingComplete: true });
   };
 }
+
+console.disableYellowBox = true;
 
 const styles = StyleSheet.create({
   container: {
