@@ -8,15 +8,12 @@ import {
   Text,
   TouchableOpacity,
   View,
+  AsyncStorage
 } from 'react-native';
 
 import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
-
-import NewRoom from "../components/NewRoom/NewRoom";
-
-import RoomButton from "../components/RoomButton/RoomButton";
 
 export default class HomeScreen extends React.Component {
   displayData = []
@@ -34,13 +31,9 @@ export default class HomeScreen extends React.Component {
     this.props.navigation.navigate("Room");
 }
 
-  addRoom = () => {
-    this.displayData.push(<NewRoom handleSubmit={handleSubmit} key={this.state.keys} />)
-    this.setState({
-      rooms: displayData,
-      keys: this.state.keys + 1,
-    })
-  }
+componentDidMount() {
+  AsyncStorage.getItem("userToken").then(data => console.log(data))
+}
 
 
   render() {

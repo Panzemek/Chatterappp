@@ -11,6 +11,7 @@ import {
 import { GiftedChat } from "react-native-gifted-chat";
 import SocketIOClient from "socket.io-client";
 import axios from "axios";
+import API from "../utils/API"
 
 const userToken = "@userId";
 
@@ -18,10 +19,12 @@ export default class MessageScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      users: [],
       messages: [],
       room: "",
-      userId: "Sammy"
+      userId: ""
     };
+
 
     this.determineUser = this.determineUser.bind(this);
     this.onReceivedMessage = this.onReceivedMessage.bind(this);
@@ -42,6 +45,22 @@ export default class MessageScreen extends React.Component {
       )
     };
   };
+
+  loadUsers = () => {
+    API.getUsers().then(res => this.setState({ users: res.data }, () => {
+      let name;
+      AsyncStorage.getItem("userToken").then(data => {
+        console.log(data);
+        for (var i = 0; i < this.state.users.length; i++) {
+          name = this.state.users[i];
+          if (name.name == data) {
+            this.setState({userId: name.name})
+          }
+        }
+      })
+    }))
+      .catch(err => console.log(err))
+  }
 
   /**
    * When a user joins the chatroom, check if they are an existing user.
@@ -69,7 +88,10 @@ export default class MessageScreen extends React.Component {
 
   componentDidMount() {
     let newRoom = this.props.navigation.getParam("pageToLoad", "Seattle");
-    this.setState({ room: newRoom }, () => {
+    this.setState({
+      userId: this.loadUsers(),
+      room: newRoom,
+    }, () => {
       this.socket.emit("join", this.state.userId, this.state.room);
       // let connStr =
       //   "https://murmuring-sea-22252.herokuapp.com/message/" + this.state.room;
@@ -122,7 +144,10 @@ export default class MessageScreen extends React.Component {
         <GiftedChat
           messages={this.state.messages}
           onSend={this.onSend}
-          user={{ _id: 1 }}
+          user={{
+            _id: this.state.userId,
+            name: this.state.userId
+          }}
         />
       </KeyboardAvoidingView>
     );
