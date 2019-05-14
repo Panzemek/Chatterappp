@@ -9,7 +9,6 @@ const UserSchema = new Schema({
   // Store the user's username, it must be a unique String
   name: {
     type: String,
-    unique: true
   },
   // Stores avatar url
   url: {
