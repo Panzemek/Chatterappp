@@ -152,6 +152,7 @@ export default class MessageScreen extends React.Component {
           onSend={this.onSend}
           user={{
             _id: this.state.userId,
+            name: this.state.username
           }}
         />
       </KeyboardAvoidingView>
