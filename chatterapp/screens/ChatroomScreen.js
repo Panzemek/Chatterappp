@@ -136,6 +136,7 @@ export default class MessageScreen extends React.Component {
     console.log(messages[0]);
     this.socket.emit("message", messages[0], this.state.room);
     this._storeMessages(messages.reverse());
+    console.log(this.state.messages);
   }
 
   render() {
@@ -151,7 +152,6 @@ export default class MessageScreen extends React.Component {
           onSend={this.onSend}
           user={{
             _id: this.state.userId,
-            name: this.state.username
           }}
         />
       </KeyboardAvoidingView>
