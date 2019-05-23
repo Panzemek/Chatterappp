@@ -22,7 +22,8 @@ export default class MessageScreen extends React.Component {
       users: [],
       messages: [],
       room: "",
-      userId: ""
+      userId: "",
+      username: ""
     };
 
 
@@ -46,7 +47,7 @@ export default class MessageScreen extends React.Component {
     };
   };
 
-  loadUsers = () => {
+  loadUsers = (callback) => {
     API.getUsers().then(res => this.setState({ users: res.data }, () => {
       let name;
       AsyncStorage.getItem("userToken").then(data => {
@@ -54,7 +55,10 @@ export default class MessageScreen extends React.Component {
         for (var i = 0; i < this.state.users.length; i++) {
           name = this.state.users[i];
           if (name.name == data) {
-            this.setState({userId: name.name})
+            this.setState({
+              userId: name._id,
+              username: name.name
+            }, () => callback())
           }
         }
       })
@@ -88,19 +92,20 @@ export default class MessageScreen extends React.Component {
 
   componentDidMount() {
     let newRoom = this.props.navigation.getParam("pageToLoad", "Seattle");
-    this.setState({
-      userId: this.loadUsers(),
-      room: newRoom,
-    }, () => {
-      this.socket.emit("join", this.state.userId, this.state.room);
-      // let connStr =
-      //   "https://murmuring-sea-22252.herokuapp.com/message/" + this.state.room;
-      // axios.get(connStr).then(res => {
-      //   let dbMessages = res;
-      //   console.log(dbMessages);
-      //   this.setState({ messages: dbMessages });
-      // });
-    });
+    this.loadUsers(() => {
+      this.setState({
+        room: newRoom,
+      }, () => {
+        this.socket.emit("join", this.state.userId, this.state.room);
+        // let connStr =
+        //   "https://murmuring-sea-22252.herokuapp.com/message/" + this.state.room;
+        // axios.get(connStr).then(res => {
+        //   let dbMessages = res;
+        //   console.log(dbMessages);
+        //   this.setState({ messages: dbMessages });
+        // });
+      });
+    })
   }
 
   componentWillMount() {
@@ -123,14 +128,15 @@ export default class MessageScreen extends React.Component {
   // Event listeners
 
   onReceivedMessage(messages) {
-    this._storeMessages(messages);
+    this._storeMessages(messages.reverse());
   }
 
   onSend(messages = []) {
     console.log("client: ");
     console.log(messages[0]);
     this.socket.emit("message", messages[0], this.state.room);
-    this._storeMessages(messages);
+    this._storeMessages(messages.reverse());
+    console.log(this.state.messages);
   }
 
   render() {
@@ -146,7 +152,7 @@ export default class MessageScreen extends React.Component {
           onSend={this.onSend}
           user={{
             _id: this.state.userId,
-            name: this.state.userId
+            name: this.state.username
           }}
         />
       </KeyboardAvoidingView>
