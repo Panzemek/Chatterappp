@@ -1,3 +1,5 @@
+//import dependencies
+
 import React from "react";
 import { View, StyleSheet, TextInput, ActivityIndicator, Modal } from "react-native";
 import { ExpoLinksView } from "@expo/samples";
@@ -18,7 +20,7 @@ let initialReg = {
 export default class LinksScreen extends React.Component {
   state = {
     coords: {
-      latitude:49.6062,
+      latitude: 49.6062,
       longitude: -122.3321
     },
     error: null,
@@ -32,14 +34,12 @@ export default class LinksScreen extends React.Component {
 
   handlePress = (e) => {
     this.setState({modalVisible:true}, () => {
-    console.log("modal show val " + this.state.modalVisible)
     coordinates = [e.coordinate.longitude, e.coordinate.latitude]
     //HERE BE BAD CODEEEEEEE
           //but it works
     for (i=0; i<Coords.length; i++) {
       nHoodCoord = Coords[i].geometry.coordinates
       if (coordinates[0]===nHoodCoord[0] && coordinates[1]===nHoodCoord[1]) {
-        console.log('nhood is ' + Coords[i].properties.neighborhood)
         this.props.navigation.navigate("MsgRoom", {pageToLoad : Coords[i].properties.neighborhood})
       }
     }
@@ -58,7 +58,8 @@ export default class LinksScreen extends React.Component {
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        this.setState({coords:{
+        this.setState({
+          coords: {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude
           },
@@ -72,13 +73,13 @@ export default class LinksScreen extends React.Component {
       if (err) {
         console.log(err)
       }
-      this.setState({stCoords: res.data})
+      this.setState({ stCoords: res.data })
     })
 
   }
 
-  
-  
+
+
 
   render() {
     return (
@@ -97,26 +98,26 @@ export default class LinksScreen extends React.Component {
             // image={require("../assets/images/marker.png")}
             title={"This is your location!"}
             pinColor={'#cbf442'}
-        />
-        {Coords.map(coord => (
-          <MapView.Marker
-            onCalloutPress={e => this.handlePress(e.nativeEvent)}
-            key={coord.properties.neighborhood}
-            title={coord.properties.neighborhood + "- Press To Join Room!"}
-            coordinate={{
-              latitude: coord.geometry.coordinates[1],
-              longitude: coord.geometry.coordinates[0]
-            }}
           />
-        ))}
-        {this.state.stCoords.map(coord => {
-            return coord.defaultRoom === false ? 
+          {Coords.map(coord => (
+            <MapView.Marker
+              onCalloutPress={e => this.handlePress(e.nativeEvent)}
+              key={coord.properties.neighborhood}
+              title={coord.properties.neighborhood + "- Press To Join Room!"}
+              coordinate={{
+                latitude: coord.geometry.coordinates[1],
+                longitude: coord.geometry.coordinates[0]
+              }}
+            />
+          ))}
+          {this.state.stCoords.map(coord => {
+            return coord.defaultRoom === false ?
               <MapView.Marker
-                  onCalloutPress={e => this.handlePress(e.nativeEvent)}
-                  key={coord.title}
-                  title={coord.title + "- Press To Join Room!"}
-                  coordinate={coord.location}
-                  pinColor={'#144ca8'}
+                onCalloutPress={e => this.handlePress(e.nativeEvent)}
+                key={coord.title}
+                title={coord.title + "- Press To Join Room!"}
+                coordinate={coord.location}
+                pinColor={'#144ca8'}
               />
             : null
             })}

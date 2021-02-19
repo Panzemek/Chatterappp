@@ -11,6 +11,7 @@ import {
 import { GiftedChat } from "react-native-gifted-chat";
 import SocketIOClient from "socket.io-client";
 import axios from "axios";
+import API from "../utils/API"
 
 const userToken = "@userId";
 
@@ -18,10 +19,13 @@ export default class MessageScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      users: [],
       messages: [],
       room: "",
-      userId: "Sammy"
+      userId: "",
+      username: ""
     };
+
 
     this.determineUser = this.determineUser.bind(this);
     this.onReceivedMessage = this.onReceivedMessage.bind(this);
@@ -42,6 +46,25 @@ export default class MessageScreen extends React.Component {
       )
     };
   };
+
+  loadUsers = (callback) => {
+    API.getUsers().then(res => this.setState({ users: res.data }, () => {
+      let name;
+      AsyncStorage.getItem("userToken").then(data => {
+        console.log(data);
+        for (var i = 0; i < this.state.users.length; i++) {
+          name = this.state.users[i];
+          if (name.name == data) {
+            this.setState({
+              userId: name._id,
+              username: name.name
+            }, () => callback())
+          }
+        }
+      })
+    }))
+      .catch(err => console.log(err))
+  }
 
   /**
    * When a user joins the chatroom, check if they are an existing user.
@@ -69,16 +92,20 @@ export default class MessageScreen extends React.Component {
 
   componentDidMount() {
     let newRoom = this.props.navigation.getParam("pageToLoad", "Seattle");
-    this.setState({ room: newRoom }, () => {
-      this.socket.emit("join", this.state.userId, this.state.room);
-      // let connStr =
-      //   "https://murmuring-sea-22252.herokuapp.com/message/" + this.state.room;
-      // axios.get(connStr).then(res => {
-      //   let dbMessages = res;
-      //   console.log(dbMessages);
-      //   this.setState({ messages: dbMessages });
-      // });
-    });
+    this.loadUsers(() => {
+      this.setState({
+        room: newRoom,
+      }, () => {
+        this.socket.emit("join", this.state.userId, this.state.room);
+        // let connStr =
+        //   "https://murmuring-sea-22252.herokuapp.com/message/" + this.state.room;
+        // axios.get(connStr).then(res => {
+        //   let dbMessages = res;
+        //   console.log(dbMessages);
+        //   this.setState({ messages: dbMessages });
+        // });
+      });
+    })
   }
 
   componentWillMount() {
@@ -101,14 +128,15 @@ export default class MessageScreen extends React.Component {
   // Event listeners
 
   onReceivedMessage(messages) {
-    this._storeMessages(messages);
+    this._storeMessages(messages.reverse());
   }
 
   onSend(messages = []) {
     console.log("client: ");
     console.log(messages[0]);
     this.socket.emit("message", messages[0], this.state.room);
-    this._storeMessages(messages);
+    this._storeMessages(messages.reverse());
+    console.log(this.state.messages);
   }
 
   render() {
@@ -122,7 +150,10 @@ export default class MessageScreen extends React.Component {
         <GiftedChat
           messages={this.state.messages}
           onSend={this.onSend}
-          user={{ _id: 1 }}
+          user={{
+            _id: this.state.userId,
+            name: this.state.username
+          }}
         />
       </KeyboardAvoidingView>
     );

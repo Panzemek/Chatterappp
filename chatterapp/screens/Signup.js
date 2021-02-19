@@ -63,7 +63,7 @@ class SignUpScreen extends Component {
   checkUsers = () => {
     let name;
     for (let i = 0; i < this.state.users.length; i++) {
-      name = this.state.users[i].userName;
+      name = this.state.users[i].name;
       if (this.state.username.trim() == name) {
         return false;
       }
