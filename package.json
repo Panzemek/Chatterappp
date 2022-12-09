@@ -20,7 +20,7 @@
   "homepage": "https://github.com/hunterwiegand/Chatterapp#readme",
   "dependencies": {
     "bcrypt": "^3.0.6",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "mongoose": "^5.5.4",
     "socket.io": "^2.2.0"
   }
